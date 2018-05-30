@@ -529,8 +529,14 @@ public class CustomPlayerUIController implements PlayerUIController, YouTubePlay
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-        if (isLive && !isLiveVOD && videoDurationValue != 0)
-            seekBar.setProgress(videoDurationValue);
+        if (isLive) {
+            if (!isLiveVOD && videoDurationValue != 0) {
+                seekBar.setProgress(videoDurationValue);
+            } else {
+                if (i == videoDurationValue)
+                    enableLiveVideoUI(true);
+            }
+        }
         videoCurrentTime.setText(Utils.formatTime(i));
     }
 
