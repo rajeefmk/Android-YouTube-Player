@@ -17,6 +17,7 @@ import android.widget.FrameLayout;
 
 import com.pierfrancescosoffritti.youtubeplayer.player.playerUtils.FullScreenHelper;
 import com.pierfrancescosoffritti.youtubeplayer.player.playerUtils.PlaybackResumer;
+import com.pierfrancescosoffritti.youtubeplayer.ui.CustomPlayerUIController;
 import com.pierfrancescosoffritti.youtubeplayer.ui.DefaultPlayerUIController;
 import com.pierfrancescosoffritti.youtubeplayer.ui.PlayerUIController;
 import com.pierfrancescosoffritti.youtubeplayer.utils.Callable;
@@ -26,7 +27,7 @@ import com.pierfrancescosoffritti.youtubeplayer.utils.Utils;
 public class YouTubePlayerView extends FrameLayout implements NetworkReceiver.NetworkListener, LifecycleObserver {
 
     @NonNull private final WebViewYouTubePlayer youTubePlayer;
-    @Nullable private DefaultPlayerUIController defaultPlayerUIController;
+    @Nullable private CustomPlayerUIController customPlayerUIController;
 
     @NonNull private final NetworkReceiver networkReceiver;
     @NonNull private final PlaybackResumer playbackResumer;
@@ -47,13 +48,13 @@ public class YouTubePlayerView extends FrameLayout implements NetworkReceiver.Ne
         youTubePlayer = new WebViewYouTubePlayer(context);
         addView(youTubePlayer, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
-        defaultPlayerUIController = new DefaultPlayerUIController(this, youTubePlayer);
+        customPlayerUIController = new CustomPlayerUIController(this,youTubePlayer);
 
         playbackResumer = new PlaybackResumer();
         networkReceiver = new NetworkReceiver(this);
         fullScreenHelper = new FullScreenHelper();
 
-        fullScreenHelper.addFullScreenListener(defaultPlayerUIController);
+        fullScreenHelper.addFullScreenListener(customPlayerUIController);
         addYouTubePlayerListeners(youTubePlayer);
     }
 
@@ -124,10 +125,10 @@ public class YouTubePlayerView extends FrameLayout implements NetworkReceiver.Ne
 
     @NonNull
     public PlayerUIController getPlayerUIController() {
-        if(defaultPlayerUIController == null)
+        if(customPlayerUIController == null)
             throw new RuntimeException("You have inflated a custom player UI. You must manage it with your own controller.");
 
-        return defaultPlayerUIController;
+        return customPlayerUIController;
     }
 
     /**
@@ -140,12 +141,12 @@ public class YouTubePlayerView extends FrameLayout implements NetworkReceiver.Ne
     public View inflateCustomPlayerUI(@LayoutRes int customPlayerUILayoutID) {
         removeViews(1, this.getChildCount()-1);
 
-        if (defaultPlayerUIController != null) {
-            youTubePlayer.removeListener(defaultPlayerUIController);
-            fullScreenHelper.removeFullScreenListener(defaultPlayerUIController);
+        if (customPlayerUIController != null) {
+            youTubePlayer.removeListener(customPlayerUIController);
+            fullScreenHelper.removeFullScreenListener(customPlayerUIController);
         }
 
-        defaultPlayerUIController = null;
+        customPlayerUIController = null;
 
         return View.inflate(getContext(), customPlayerUILayoutID, this);
     }
@@ -175,7 +176,7 @@ public class YouTubePlayerView extends FrameLayout implements NetworkReceiver.Ne
     }
 
     private void addYouTubePlayerListeners(final YouTubePlayer youTubePlayer) {
-        if (defaultPlayerUIController != null) youTubePlayer.addListener(defaultPlayerUIController);
+        if (customPlayerUIController != null) youTubePlayer.addListener(customPlayerUIController);
         youTubePlayer.addListener(playbackResumer);
         youTubePlayer.addListener(new AbstractYouTubePlayerListener() {
             @Override
