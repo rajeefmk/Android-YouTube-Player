@@ -117,6 +117,7 @@ public class CustomPlayerUIController implements PlayerUIController, YouTubePlay
         playPauseButton.setOnClickListener(this);
         menuButton.setOnClickListener(this);
         fullScreenButton.setOnClickListener(this);
+        liveVideoIndicator.setOnClickListener(this);
     }
 
     @Override
@@ -286,6 +287,15 @@ public class CustomPlayerUIController implements PlayerUIController, YouTubePlay
             onFullScreenButtonPressed();
         else if (view == menuButton)
             onMenuButtonPressed();
+        else if (view == liveVideoIndicator)
+            onLiveVideoIndicatorPressed();
+    }
+
+    private void onLiveVideoIndicatorPressed() {
+        enableLiveVideoUI(true);
+        if (videoDurationValue != 0)
+            youTubePlayer.seekTo(videoDurationValue);
+        seekBar.setProgress(videoDurationValue);
     }
 
     private void onMenuButtonPressed() {
