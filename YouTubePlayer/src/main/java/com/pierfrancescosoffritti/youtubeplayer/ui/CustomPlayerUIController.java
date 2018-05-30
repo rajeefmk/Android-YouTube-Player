@@ -77,6 +77,7 @@ public class CustomPlayerUIController implements PlayerUIController, YouTubePlay
     private boolean showBufferingProgress = true;
 
     private boolean isLive = false;
+    private boolean isLiveVOD = false;
     private int videoDurationValue = 0;
 
     public CustomPlayerUIController(@NonNull YouTubePlayerView youTubePlayerView, @NonNull YouTubePlayer youTubePlayer) {
@@ -148,6 +149,7 @@ public class CustomPlayerUIController implements PlayerUIController, YouTubePlay
     @Override
     public void enableLiveVideoUI(boolean enable) {
         isLive = enable;
+        enableLiveVODUI(false);
         if (enable) {
             videoCurrentTime.setVisibility(View.INVISIBLE);
             videoDuration.setVisibility(View.INVISIBLE);
@@ -158,6 +160,17 @@ public class CustomPlayerUIController implements PlayerUIController, YouTubePlay
             videoCurrentTime.setVisibility(View.VISIBLE);
 
             liveVideoIndicator.setVisibility(View.GONE);
+        }
+    }
+
+    private void enableLiveVODUI(boolean enable) {
+        isLiveVOD = enable;
+        if (enable) {
+            liveVideoIndicator.setTextColor(ContextCompat.getColor(controlsRoot.getContext(), android.R.color.white));
+            videoCurrentTime.setVisibility(View.VISIBLE);
+        } else {
+            liveVideoIndicator.setTextColor(ContextCompat.getColor(controlsRoot.getContext(), R.color.red));
+            videoCurrentTime.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -506,13 +519,15 @@ public class CustomPlayerUIController implements PlayerUIController, YouTubePlay
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-        if (isLive && videoDurationValue != 0)
+        if (isLive && !isLiveVOD && videoDurationValue != 0)
             seekBar.setProgress(videoDurationValue);
         videoCurrentTime.setText(Utils.formatTime(i));
     }
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
+        if (isLive)
+            enableLiveVODUI(true);
         seekBarTouchStarted = true;
     }
 
