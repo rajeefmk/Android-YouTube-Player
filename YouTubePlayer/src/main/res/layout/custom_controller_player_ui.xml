@@ -148,7 +148,8 @@
                     android:layout_toStartOf="@+id/fullscreen_button"
                     android:gravity="center_vertical"
                     android:text="@string/live"
-                    android:textColor="@android:color/white"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/red"
                     android:textSize="12sp"
                     android:visibility="gone" />
 

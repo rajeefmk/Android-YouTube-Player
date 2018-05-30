@@ -27,10 +27,13 @@ import com.pierfrancescosoffritti.youtubeplayer.ui.menu.defaultMenu.DefaultYouTu
 import com.pierfrancescosoffritti.youtubeplayer.utils.Utils;
 
 public class CustomPlayerUIController implements PlayerUIController, YouTubePlayerListener, YouTubePlayerFullScreenListener, View.OnClickListener, SeekBar.OnSeekBarChangeListener {
-    @NonNull private final YouTubePlayerView youTubePlayerView;
-    @NonNull private final YouTubePlayer youTubePlayer;
+    @NonNull
+    private final YouTubePlayerView youTubePlayerView;
+    @NonNull
+    private final YouTubePlayer youTubePlayer;
 
-    @NonNull private YouTubePlayerMenu youTubePlayerMenu;
+    @NonNull
+    private YouTubePlayerMenu youTubePlayerMenu;
 
     /**
      * View used for for intercepting clicks and for drawing a black background.
@@ -59,8 +62,10 @@ public class CustomPlayerUIController implements PlayerUIController, YouTubePlay
 
     private SeekBar seekBar;
 
-    @Nullable private View.OnClickListener onFullScreenButtonListener;
-    @Nullable private View.OnClickListener onMenuButtonClickListener;
+    @Nullable
+    private View.OnClickListener onFullScreenButtonListener;
+    @Nullable
+    private View.OnClickListener onMenuButtonClickListener;
 
     // view state
     private boolean isPlaying = false;
@@ -139,11 +144,9 @@ public class CustomPlayerUIController implements PlayerUIController, YouTubePlay
 
     @Override
     public void enableLiveVideoUI(boolean enable) {
-        if(enable) {
-            videoDuration.setVisibility(View.INVISIBLE);
-            seekBar.setVisibility(View.INVISIBLE);
+        if (enable) {
             videoCurrentTime.setVisibility(View.INVISIBLE);
-
+            videoDuration.setVisibility(View.INVISIBLE);
             liveVideoIndicator.setVisibility(View.VISIBLE);
         } else {
             videoDuration.setVisibility(View.VISIBLE);
@@ -258,32 +261,32 @@ public class CustomPlayerUIController implements PlayerUIController, YouTubePlay
 
     @Override
     public void onClick(View view) {
-        if(view == panel)
+        if (view == panel)
             toggleControlsVisibility();
-        else if(view == playPauseButton)
+        else if (view == playPauseButton)
             onPlayButtonPressed();
-        else if(view == fullScreenButton)
+        else if (view == fullScreenButton)
             onFullScreenButtonPressed();
-        else if(view == menuButton)
+        else if (view == menuButton)
             onMenuButtonPressed();
     }
 
     private void onMenuButtonPressed() {
-        if(onMenuButtonClickListener == null)
+        if (onMenuButtonClickListener == null)
             youTubePlayerMenu.show(menuButton);
         else
             onMenuButtonClickListener.onClick(menuButton);
     }
 
     private void onFullScreenButtonPressed() {
-        if(onFullScreenButtonListener == null)
+        if (onFullScreenButtonListener == null)
             youTubePlayerView.toggleFullScreen();
         else
             onFullScreenButtonListener.onClick(fullScreenButton);
     }
 
     private void onPlayButtonPressed() {
-        if(isPlaying)
+        if (isPlaying)
             youTubePlayer.pause();
         else
             youTubePlayer.play();
@@ -308,14 +311,14 @@ public class CustomPlayerUIController implements PlayerUIController, YouTubePlay
     };
 
     private void fadeControls(final float finalAlpha) {
-        if(!canFadeControls || !showUI)
+        if (!canFadeControls || !showUI)
             return;
 
         isVisible = finalAlpha != 0f;
 
         // if the controls are shown and the player is playing they should automatically hide after a while.
         // if the controls are hidden remove fade out runnable
-        if(finalAlpha == 1f && isPlaying)
+        if (finalAlpha == 1f && isPlaying)
             startFadeOutViewTimer();
         else
             handler.removeCallbacks(fadeOutRunnable);
@@ -337,8 +340,13 @@ public class CustomPlayerUIController implements PlayerUIController, YouTubePlay
                             controlsRoot.setVisibility(View.GONE);
                     }
 
-                    @Override public void onAnimationCancel(Animator animator) { }
-                    @Override public void onAnimationRepeat(Animator animator) { }
+                    @Override
+                    public void onAnimationCancel(Animator animator) {
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animator) {
+                    }
                 }).start();
     }
 
@@ -365,18 +373,18 @@ public class CustomPlayerUIController implements PlayerUIController, YouTubePlay
 
         updateControlsState(state);
 
-        if(state == PlayerConstants.PlayerState.PLAYING || state == PlayerConstants.PlayerState.PAUSED || state == PlayerConstants.PlayerState.VIDEO_CUED) {
+        if (state == PlayerConstants.PlayerState.PLAYING || state == PlayerConstants.PlayerState.PAUSED || state == PlayerConstants.PlayerState.VIDEO_CUED) {
             panel.setBackgroundColor(ContextCompat.getColor(youTubePlayerView.getContext(), android.R.color.transparent));
             progressBar.setVisibility(View.GONE);
 
-            if(showPlayPauseButton) playPauseButton.setVisibility(View.VISIBLE);
+            if (showPlayPauseButton) playPauseButton.setVisibility(View.VISIBLE);
 
 
             canFadeControls = true;
             boolean playing = state == PlayerConstants.PlayerState.PLAYING;
             updatePlayPauseButtonIcon(playing);
 
-            if(playing)
+            if (playing)
                 startFadeOutViewTimer();
             else
                 handler.removeCallbacks(fadeOutRunnable);
@@ -385,9 +393,9 @@ public class CustomPlayerUIController implements PlayerUIController, YouTubePlay
             updatePlayPauseButtonIcon(false);
             fadeControls(1f);
 
-            if(state == PlayerConstants.PlayerState.BUFFERING) {
+            if (state == PlayerConstants.PlayerState.BUFFERING) {
                 panel.setBackgroundColor(ContextCompat.getColor(youTubePlayerView.getContext(), android.R.color.transparent));
-                if(showPlayPauseButton) playPauseButton.setVisibility(View.INVISIBLE);
+                if (showPlayPauseButton) playPauseButton.setVisibility(View.INVISIBLE);
 
                 customActionLeft.setVisibility(View.GONE);
                 customActionRight.setVisibility(View.GONE);
@@ -395,11 +403,11 @@ public class CustomPlayerUIController implements PlayerUIController, YouTubePlay
                 canFadeControls = false;
             }
 
-            if(state == PlayerConstants.PlayerState.UNSTARTED) {
+            if (state == PlayerConstants.PlayerState.UNSTARTED) {
                 canFadeControls = false;
 
                 progressBar.setVisibility(View.GONE);
-                if(showPlayPauseButton) playPauseButton.setVisibility(View.VISIBLE);
+                if (showPlayPauseButton) playPauseButton.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -429,10 +437,10 @@ public class CustomPlayerUIController implements PlayerUIController, YouTubePlay
     @Override
     public void onCurrentSecond(float second) {
         // ignore if the user is currently moving the SeekBar
-        if(seekBarTouchStarted)
+        if (seekBarTouchStarted)
             return;
         // ignore if the current time is older than what the user selected with the SeekBar
-        if(newSeekBarProgress > 0 && !Utils.formatTime(second).equals(Utils.formatTime(newSeekBarProgress)))
+        if (newSeekBarProgress > 0 && !Utils.formatTime(second).equals(Utils.formatTime(newSeekBarProgress)))
             return;
 
         newSeekBarProgress = -1;
@@ -448,8 +456,8 @@ public class CustomPlayerUIController implements PlayerUIController, YouTubePlay
 
     @Override
     public void onVideoLoadedFraction(float loadedFraction) {
-        if(showBufferingProgress)
-            seekBar.setSecondaryProgress( (int) (loadedFraction*seekBar.getMax()) );
+        if (showBufferingProgress)
+            seekBar.setSecondaryProgress((int) (loadedFraction * seekBar.getMax()));
         else
             seekBar.setSecondaryProgress(0);
     }
@@ -465,11 +473,25 @@ public class CustomPlayerUIController implements PlayerUIController, YouTubePlay
         });
     }
 
-    @Override public void onReady() { }
-    @Override public void onPlaybackQualityChange(@NonNull @PlayerConstants.PlaybackQuality.Quality String playbackQuality) { }
-    @Override public void onPlaybackRateChange(@NonNull @PlayerConstants.PlaybackRate.Rate String rate) { }
-    @Override public void onError(@PlayerConstants.PlayerError.Error int error) { }
-    @Override public void onApiChange() { }
+    @Override
+    public void onReady() {
+    }
+
+    @Override
+    public void onPlaybackQualityChange(@NonNull @PlayerConstants.PlaybackQuality.Quality String playbackQuality) {
+    }
+
+    @Override
+    public void onPlaybackRateChange(@NonNull @PlayerConstants.PlaybackRate.Rate String rate) {
+    }
+
+    @Override
+    public void onError(@PlayerConstants.PlayerError.Error int error) {
+    }
+
+    @Override
+    public void onApiChange() {
+    }
 
     // SeekBar callbacks
 
@@ -489,7 +511,7 @@ public class CustomPlayerUIController implements PlayerUIController, YouTubePlay
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-        if(isPlaying)
+        if (isPlaying)
             newSeekBarProgress = seekBar.getProgress();
 
         youTubePlayer.seekTo(seekBar.getProgress());
