@@ -127,7 +127,8 @@
                     android:paddingStart="8dp"
                     android:text="@string/null_time"
                     android:textColor="@android:color/white"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/video_duration"
@@ -139,17 +140,22 @@
                     android:paddingStart="8dp"
                     android:text="@string/null_time"
                     android:textColor="@android:color/white"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/live_video_indicator"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toStartOf="@+id/fullscreen_button"
-                    android:gravity="center_vertical"
-                    android:text="@string/live"
+                    android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:textColor="@color/red"
+                    android:layout_gravity="center"
+                    android:layout_toStartOf="@+id/fullscreen_button"
+                    android:drawablePadding="@dimen/_8dp"
+                    android:drawableStart="@drawable/ic_live_dot_red"
+                    android:gravity="start|center_vertical"
+                    android:text="@string/live"
+                    android:textColor="@android:color/white"
                     android:textSize="12sp"
                     android:visibility="gone" />
 
@@ -173,10 +179,10 @@
                     android:layout_gravity="end"
                     android:background="@drawable/background_item_selected"
                     android:clickable="true"
-                    android:paddingEnd="8dp"
-                    android:paddingStart="8dp"
                     android:contentDescription="@string/full_screen_button"
                     android:focusable="true"
+                    android:paddingEnd="8dp"
+                    android:paddingStart="8dp"
                     android:src="@drawable/ic_fullscreen_24dp" />
 
             </RelativeLayout>

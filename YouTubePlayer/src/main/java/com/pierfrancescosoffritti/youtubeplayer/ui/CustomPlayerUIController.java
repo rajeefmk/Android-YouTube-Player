@@ -156,6 +156,7 @@ public class CustomPlayerUIController implements PlayerUIController, YouTubePlay
             videoCurrentTime.setVisibility(View.INVISIBLE);
             videoDuration.setVisibility(View.INVISIBLE);
             liveVideoIndicator.setVisibility(View.VISIBLE);
+            liveVideoIndicator.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_live_dot_red,0,0,0);
         } else {
             videoDuration.setVisibility(View.VISIBLE);
             seekBar.setVisibility(View.VISIBLE);
@@ -168,10 +169,10 @@ public class CustomPlayerUIController implements PlayerUIController, YouTubePlay
     private void enableLiveVODUI(boolean enable) {
         isLiveVOD = enable;
         if (enable) {
-            liveVideoIndicator.setTextColor(ContextCompat.getColor(controlsRoot.getContext(), android.R.color.white));
+            liveVideoIndicator.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_live_dot_white,0,0,0);
             videoCurrentTime.setVisibility(View.VISIBLE);
         } else {
-            liveVideoIndicator.setTextColor(ContextCompat.getColor(controlsRoot.getContext(), R.color.red));
+            liveVideoIndicator.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_live_dot_red,0,0,0);
             videoCurrentTime.setVisibility(View.INVISIBLE);
         }
     }
