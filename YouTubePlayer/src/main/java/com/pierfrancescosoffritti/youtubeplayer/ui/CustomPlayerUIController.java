@@ -75,7 +75,7 @@ public class CustomPlayerUIController implements PlayerUIController, YouTubePlay
         this.youTubePlayerView = youTubePlayerView;
         this.youTubePlayer = youTubePlayer;
 
-        View defaultPlayerUI = View.inflate(youTubePlayerView.getContext(), R.layout.default_player_ui, youTubePlayerView);
+        View defaultPlayerUI = View.inflate(youTubePlayerView.getContext(), R.layout.custom_controller_player_ui, youTubePlayerView);
         initViews(defaultPlayerUI);
 
         youTubePlayerMenu = new DefaultYouTubePlayerMenu(youTubePlayerView.getContext());
