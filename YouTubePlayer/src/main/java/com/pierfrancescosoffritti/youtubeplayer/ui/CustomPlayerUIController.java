@@ -76,6 +76,9 @@ public class CustomPlayerUIController implements PlayerUIController, YouTubePlay
     private boolean showPlayPauseButton = true;
     private boolean showBufferingProgress = true;
 
+    private boolean isLive = false;
+    private int videoDurationValue = 0;
+
     public CustomPlayerUIController(@NonNull YouTubePlayerView youTubePlayerView, @NonNull YouTubePlayer youTubePlayer) {
         this.youTubePlayerView = youTubePlayerView;
         this.youTubePlayer = youTubePlayer;
@@ -144,6 +147,7 @@ public class CustomPlayerUIController implements PlayerUIController, YouTubePlay
 
     @Override
     public void enableLiveVideoUI(boolean enable) {
+        isLive = enable;
         if (enable) {
             videoCurrentTime.setVisibility(View.INVISIBLE);
             videoDuration.setVisibility(View.INVISIBLE);
@@ -450,6 +454,7 @@ public class CustomPlayerUIController implements PlayerUIController, YouTubePlay
 
     @Override
     public void onVideoDuration(float duration) {
+        videoDurationValue = (int) duration;
         videoDuration.setText(Utils.formatTime(duration));
         seekBar.setMax((int) duration);
     }
@@ -501,6 +506,8 @@ public class CustomPlayerUIController implements PlayerUIController, YouTubePlay
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+        if (isLive && videoDurationValue != 0)
+            seekBar.setProgress(videoDurationValue);
         videoCurrentTime.setText(Utils.formatTime(i));
     }
 
