@@ -166,7 +166,8 @@ public class CustomPlayerUIController implements PlayerUIController, YouTubePlay
         }
     }
 
-    private void enableLiveVODUI(boolean enable) {
+    @Override
+    public void enableLiveVODUI(boolean enable) {
         isLiveVOD = enable;
         if (enable) {
             liveVideoIndicator.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_live_dot_white,0,0,0);

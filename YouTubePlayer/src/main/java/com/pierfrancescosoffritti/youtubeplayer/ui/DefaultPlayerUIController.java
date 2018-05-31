@@ -154,6 +154,11 @@ public class DefaultPlayerUIController implements PlayerUIController, YouTubePla
         }
     }
 
+    @Override
+    public void enableLiveVODUI(boolean enable) {
+
+    }
+
     /**
      * Set custom action to the left of the Play/Pause button
      */
